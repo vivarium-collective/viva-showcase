@@ -1,0 +1,45 @@
+schema_version: 2
+name: medyan
+title: "Showcase: viva-medyan — MEDYAN cytoskeletal-network mechanics"
+created: '2026-10-27'
+status: planning
+question: "Does viva-medyan reproduce a basic MEDYAN-style mechanochemical cytoskeletal-network run (filaments, motors, crosslinks) end-to-end as a pluggable process-bigraph engine?"
+hypothesis: TBD — what do we expect the composed studies to show?
+description: Scaffolded from 2 composite generator(s) via `investigation-from-wrapper`. Fill in the narrative.
+studies:
+- network-demo
+- network-demo-with-viz
+executive:
+  what_is_this: TBD — one paragraph, for a reader who has never seen this.
+  verdict: TBD — fill in once studies are run.
+  verdict_status: in-progress
+  verdict_detail: TBD
+  decisions_needed: []
+  computed_verdict_status: passing-with-caveats
+  computed_acceptance:
+    criteria:
+    - study: network-demo
+      behavior: network-demo-behaves
+      result: passing-with-caveats
+    - study: network-demo-with-viz
+      behavior: network-demo-with-viz-behaves
+      result: passing-with-caveats
+    unmet:
+    - study: network-demo
+      behavior: network-demo-behaves
+      result: passing-with-caveats
+    - study: network-demo-with-viz
+      behavior: network-demo-with-viz-behaves
+      result: passing-with-caveats
+    diverges_from_authored: true
+scientific_argument:
+  main_claim: TBD — the one-sentence claim this investigation supports.
+  evidence_for: []
+  evidence_against: []
+  key_figures: []
+  caveats: []
+acceptance_criteria:
+- study: network-demo
+  behavior: network-demo-behaves
+- study: network-demo-with-viz
+  behavior: network-demo-with-viz-behaves

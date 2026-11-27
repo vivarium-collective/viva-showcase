@@ -24,7 +24,7 @@ dependencies = [
     # The showcased simulators, pinned for reproducibility (every study.yaml also
     # records the pin under `simulator:`). Each provides its own import package, so
     # the studies' `composite:` dotted paths (viva_tellurium.*, pbg_lammps.*,
-    # pbg_readdy.*, pbg_mem3dg.*, viva_grammar.*, pbg_comets.*) resolve from the
+    # pbg_readdy.*, pbg_mem3dg.*, viva_grammar.*, pbg_comets.*, pbg_medyan.*) resolve from the
     # installed pin.
     "viva-tellurium==0.2.4",   # PyPI
     "viva-lammps",             # git tag 0.1.1 (see [tool.uv.sources])
@@ -32,6 +32,7 @@ dependencies = [
     "viva-mem3dg",             # git tag 0.1.1
     "viva-grammar",            # git tag 0.1.0
     "viva-comets",             # git tag 0.1.0
+    "viva-medyan",             # git tag 0.1.0
     # Workbench + discovery-engine: read-only dashboards + run-earned grading.
     "vivarium-workbench",
     "viva-discovery-engine",
@@ -56,6 +57,7 @@ viva-readdy = { git = "https://github.com/vivarium-collective/viva-readdy.git", 
 viva-mem3dg = { git = "https://github.com/vivarium-collective/viva-mem3dg.git", tag = "0.1.1" }
 viva-grammar = { git = "https://github.com/vivarium-collective/viva-grammar.git", tag = "0.1.0" }
 viva-comets = { git = "https://github.com/vivarium-collective/viva-comets.git", tag = "0.1.0" }
+viva-medyan = { git = "https://github.com/vivarium-collective/viva-medyan.git", tag = "0.1.0" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
 viva-discovery-engine = { git = "https://github.com/vivarium-collective/discovery-engine.git", branch = "main" }
 

@@ -30,6 +30,7 @@ dependencies = [
     "viva-copasi==0.2.2",
     "viva-discovery-engine",
     "viva-equilibrator",
+    "viva-fenics",
     "viva-grammar",
     "viva-lammps",
     "viva-maboss",
@@ -63,6 +64,7 @@ viva-caspule = { git = "https://github.com/vivarium-collective/viva-caspule.git"
 viva-comets = { git = "https://github.com/vivarium-collective/viva-comets.git", tag = "0.1.0" }
 viva-discovery-engine = { git = "https://github.com/vivarium-collective/discovery-engine.git", branch = "main" }
 viva-equilibrator = { git = "https://github.com/vivarium-collective/viva-equilibrator.git", tag = "v0.1.0" }
+viva-fenics = { git = "https://github.com/vivarium-collective/viva-fenics.git", tag = "0.3.0" }
 viva-grammar = { git = "https://github.com/vivarium-collective/viva-grammar.git", tag = "0.1.0" }
 viva-lammps = { git = "https://github.com/vivarium-collective/viva-lammps.git", tag = "0.1.1" }
 viva-maboss = { git = "https://github.com/vivarium-collective/viva-maboss.git", tag = "0.1.3" }

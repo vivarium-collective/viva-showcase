@@ -1,0 +1,80 @@
+schema_version: 4
+name: lotka-volterra
+simulator:
+  package: viva-simbio
+  ref: "c43ecf0"
+  registry: git
+title: Lotka-Volterra predator-prey (simbio)
+created: '2026-11-27'
+status: complete
+execution_status: ran
+phase: Decide
+question: >-
+  Driven as a process-bigraph process, does simbio integrate a Lotka-Volterra
+  Antimony model into sustained, bounded predator-prey oscillations?
+hypothesis: >-
+  Integrating the predator-prey reaction network (prey birth, predation, predator
+  death, predator reproduction) through simbio yields both species staying
+  strictly positive and the prey oscillating with repeated peaks over t in [0, 40].
+objective: >-
+  Demonstrate end to end that pbg_simbio.composites.crn.simbio_lotka_volterra runs
+  the real simbio ODE engine and emits correct species trajectories, with simbio
+  acting as a pluggable process-bigraph process.
+description: >-
+  The basic-functionality showcase for viva-simbio. A Lotka-Volterra Antimony model
+  is integrated by SimbioProcess against shared concentration/parameter stores and
+  emitted each tick. Over t in [0, 40] (161 rows), prey ranges 0.506-13.59 and
+  predator 0.916-6.16, both strictly positive, with 3 prey peaks above 5.0 — the
+  textbook boom-and-bust oscillation.
+baseline:
+- name: baseline
+  composite: pbg_simbio.composites.crn.simbio_lotka_volterra
+  params: {}
+variants: []
+expected_behavior:
+- name: sustained-oscillation
+  en: >-
+    Both populations stay positive and the prey oscillates — at least two prey
+    peaks above 5.0 over the run (sustained cycles, not monotone decay or a fixed
+    point).
+  observable: concentrations
+  condition: over t in [0, 40]
+  rationale: >-
+    The Lotka-Volterra system has a neutrally stable cycle around its coexistence
+    equilibrium, so a correct integration gives bounded, repeating oscillations
+    with both species strictly positive.
+  measure: {kind: derived_scalar, field: prey_peaks}
+  expect: {op: '>=', value: 2}
+behavior_tests:
+- name: sustained-oscillation
+  classification: primary
+  description: >-
+    >= 2 prey peaks above 5.0 over t in [0,40], with prey_min and pred_min > 0
+    (observed 3 prey peaks; prey_min = 0.506, pred_min = 0.916).
+  measure: {kind: derived_scalar, field: prey_peaks}
+  pass_if: {op: '>=', value: 2}
+  requires_simulation: baseline
+pipeline_gate:
+  prerequisites: []
+  enables: []
+canonical_runs:
+- name: default
+  script: investigations/simbio/studies/lotka-volterra/sims/run.py
+  args: []
+  label: lotka-volterra
+  default: true
+visualizations: []
+findings:
+- name: bounded-predator-prey-cycles
+  statement: >-
+    simbio integrates the Lotka-Volterra model to a bounded oscillation: prey
+    0.506-13.59, predator 0.916-6.16 over t in [0, 40], both strictly positive,
+    with 3 prey peaks above 5.0.
+  provenance: >-
+    Observed in an isolated-venv run of the lotka_volterra composite on pbg-simbio
+    @ main (commit c43ecf0) / simbio 1.1.0, 2026-11-27 (reproduced by sims/run.py).
+conclusion: >-
+  PASS. Run as a process-bigraph process, simbio integrated the Lotka-Volterra
+  predator-prey network into a sustained, bounded oscillation (3 prey peaks; both
+  species strictly positive). simbio behaves as a drop-in process-bigraph CRN/ODE
+  engine, emitting real species trajectories.

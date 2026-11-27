@@ -1,0 +1,99 @@
+schema_version: 4
+name: vent-feasibility-gate
+simulator:
+  package: viva-equilibrator
+  ref: "0.1.0"
+  registry: git
+title: Vent carbon-fixation feasibility gate (eQuilibrator ΔG')
+created: '2026-11-27'
+status: complete
+execution_status: ran
+phase: Decide
+question: >-
+  Driven as a process-bigraph Step, does eQuilibrator report H2-driven reductive
+  CO2 fixation to formate, acetate and pyruvate as thermodynamically feasible at
+  alkaline-hydrothermal-vent conditions?
+hypothesis: >-
+  At pH 9.5, 333.15 K, with dissolved H2 (5 mM) and CO2 (2 mM), eQuilibrator's
+  transformed Gibbs free energies ΔG' for the three reductive CO2-fixation
+  reactions are all negative (exergonic), opening the feasibility gate.
+objective: >-
+  Demonstrate end to end that
+  viva_equilibrator.composites.feasibility.equilibrator_feasibility_gate runs the
+  real eQuilibrator engine and emits per-reaction ΔG' and feasibility, with
+  eQuilibrator acting as a pluggable process-bigraph thermodynamics Step.
+description: >-
+  The basic-functionality showcase for viva-equilibrator. A fixed vent condition in
+  a `world` store feeds EquilibratorThermoStep, which calls component-contribution
+  to compute ΔG' for three reductive CO2-fixation reactions and a per-reaction
+  feasibility flag. The composite is Step-only (no time-advancing process), so it
+  emits one row. Observed: ΔG'(formate) = -48.66, ΔG'(acetate) = -150.74,
+  ΔG'(pyruvate) = -88.28 kJ/mol; feasibility >= 0.9999 for all three.
+baseline:
+- name: baseline
+  composite: viva_equilibrator.composites.feasibility.equilibrator_feasibility_gate
+  params: {}
+variants: []
+expected_behavior:
+- name: thermodynamic-feasibility
+  en: >-
+    Every reductive CO2-fixation reaction is exergonic at the vent condition —
+    the largest ΔG' across the three reactions is still negative.
+  observable: dg_prime
+  condition: at pH 9.5 / 333.15 K / H2 5e-3 M / CO2 2e-3 M
+  rationale: >-
+    An H2-rich alkaline vent provides a strong reducing drive; reductive CO2
+    fixation to these products should run downhill (ΔG' < 0).
+  measure: {kind: derived_scalar, field: max_dg}
+  expect: {op: <, value: 0.0}
+- name: feasibility-gate-open
+  en: >-
+    The per-reaction feasibility flags all report the gate open (feasibility ~1).
+  observable: feasibility
+  condition: at the vent condition
+  rationale: >-
+    The feasibility flag is a smooth gate on ΔG'; strongly exergonic reactions
+    map to feasibility ~1.0.
+  measure: {kind: derived_scalar, field: min_feasibility}
+  expect: {op: '>=', value: 0.99}
+behavior_tests:
+- name: thermodynamic-feasibility
+  classification: primary
+  description: >-
+    max(ΔG'_formate, ΔG'_acetate, ΔG'_pyruvate) < 0 (observed max = -48.66 kJ/mol;
+    all three exergonic).
+  measure: {kind: derived_scalar, field: max_dg}
+  pass_if: {op: <, value: 0.0}
+  requires_simulation: baseline
+- name: feasibility-gate-open
+  classification: primary
+  description: >-
+    min feasibility across the three reactions >= 0.99 (observed min = 0.99999998).
+  measure: {kind: derived_scalar, field: min_feasibility}
+  pass_if: {op: '>=', value: 0.99}
+  requires_simulation: baseline
+pipeline_gate:
+  prerequisites: []
+  enables: []
+canonical_runs:
+- name: default
+  script: investigations/equilibrator/studies/vent-feasibility-gate/sims/run.py
+  args: []
+  label: vent-feasibility-gate
+  default: true
+visualizations: []
+findings:
+- name: exergonic-carbon-fixation
+  statement: >-
+    At vent conditions eQuilibrator reports ΔG'(formate) = -48.66,
+    ΔG'(acetate) = -150.74, ΔG'(pyruvate) = -88.28 kJ/mol, all exergonic, with
+    feasibility >= 0.9999 — the full reductive CO2-fixation gate is open.
+  provenance: >-
+    Observed in an isolated-venv run of the feasibility-gate composite on
+    viva-equilibrator 0.1.0 / equilibrator-api 0.8.1, 2026-11-27, fully offline
+    (reproduced by sims/run.py).
+conclusion: >-
+  PASS on both acceptance bands. Run as a process-bigraph Step, eQuilibrator found
+  all three H2-driven reductive CO2-fixation reactions strongly exergonic at vent
+  conditions (max ΔG' = -48.66 kJ/mol) with feasibility ~1.0. eQuilibrator behaves
+  as a drop-in process-bigraph thermodynamics engine, computed entirely offline.

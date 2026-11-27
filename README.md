@@ -1,6 +1,7 @@
 # viva-showcase
 
 [![workspace-ci](https://github.com/vivarium-collective/viva-showcase/actions/workflows/workspace-ci.yml/badge.svg)](https://github.com/vivarium-collective/viva-showcase/actions/workflows/workspace-ci.yml)
+[![read-only workbench](https://img.shields.io/badge/read--only_workbench-live-2ea44f)](https://vivarium-collective.github.io/viva-showcase/workbench/)
 
 Showcase of the viva ecosystem's simulators — one investigation per simulator
 demonstrating basic functionality.

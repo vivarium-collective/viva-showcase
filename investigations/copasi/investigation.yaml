@@ -1,0 +1,73 @@
+schema_version: 2
+name: copasi
+title: "Showcase: viva-copasi — COPASI/basico as a pluggable ODE + steady-state engine"
+created: '2026-11-27'
+status: running
+question: >-
+  Does viva-copasi expose the COPASI simulator (via basico) as reusable
+  process-bigraph Steps/Processes that run a real published gene-circuit model —
+  solving its steady state and integrating its ODE dynamics — end to end?
+hypothesis: >-
+  Wrapping COPASI as process-bigraph components and loading the bundled Elowitz
+  (2000) repressilator should (a) solve a well-defined steady state whose
+  protein/mRNA stoichiometry and three-fold symmetry match the model's own
+  structure, and (b) integrate the same model forward in time as a genuine
+  oscillator, with both flavors emitting real species concentrations and fluxes.
+description: >-
+  viva-copasi bridges COPASI (through the basico Python API) into process-bigraph
+  as three composable units — a steady-state Step, a uniform-time-course Step, and
+  a uniform-time-course Process. This showcase proves the engine on the bundled
+  Elowitz repressilator (BioModels BIOMD0000000012): the steady-state composite is
+  the basic-functionality demonstration, with the UTC process available as a
+  dynamics variant.
+studies:
+- repressilator-steady-state
+executive:
+  what_is_this: >-
+    A demonstration that the COPASI biochemical simulator can be driven as a
+    plug-in engine inside the process-bigraph framework. It loads a classic
+    three-gene oscillator model and asks COPASI to find the circuit's balance
+    point, reporting the real protein and mRNA levels COPASI computes.
+  verdict: >-
+    The steady-state composite runs COPASI end to end on the bundled repressilator
+    and returns a clean fixed point: every protein sits at exactly 100x its mRNA,
+    and the three genes are symmetric to machine precision — both acceptance bands
+    met in a clean-venv run of the pinned engine.
+  verdict_status: supported
+  verdict_detail: >-
+    Study repressilator-steady-state: COPASI solved the equilibrium of
+    BIOMD0000000012 and emitted X=Y=Z=2.40822 (mRNA), PX=PY=PZ=240.822 (protein),
+    translation flux 16.6925 and transcription flux 0.83463. The protein/mRNA ratio
+    is 100.0 to within 1e-6 and the three genes agree to within 1e-6 (observed on
+    viva-copasi 0.2.2 / basico 0.93, 2026-11-27).
+  decisions_needed: []
+scientific_argument:
+  main_claim: >-
+    COPASI's steady-state and time-course solvers can be exposed as reusable
+    process-bigraph components that run a real published model and emit correct,
+    structure-consistent results.
+  evidence_for:
+  - >-
+    The steady-state solve returns a protein/mRNA ratio of exactly 100.0 and
+    three-fold gene symmetry — both forced by the model's stoichiometry, so they
+    are a real check on the COPASI solve, not a coincidence.
+  - >-
+    The companion UTC-process composite integrates the same model forward and
+    breaks the symmetry into genuine oscillator dynamics (PX=495.5, PY=572.0,
+    PZ=141.4 after a short run), confirming the engine also drives transient ODEs.
+  evidence_against:
+  - >-
+    This is a single bundled model; it demonstrates the engine bridge, not COPASI's
+    full solver surface (parameter estimation, scans, stochastic methods exist in
+    the package but are out of scope for the basic-functionality showcase).
+  key_figures: []
+  caveats:
+  - >-
+    The run was reproduced in an isolated venv from the pinned release; the
+    workspace-level dashboard render is left to the reader (sims/run.py reproduces
+    the numbers).
+acceptance_criteria:
+- study: repressilator-steady-state
+  behavior: protein-mrna-stoichiometry
+- study: repressilator-steady-state
+  behavior: three-fold-symmetry

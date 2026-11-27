@@ -30,6 +30,7 @@ dependencies = [
     "viva-readdy",             # git tag 0.1.0
     "viva-mem3dg",             # git tag 0.1.1
     "viva-grammar",            # git tag 0.1.0
+    "pbg-artistoo",             # git tag 0.1.0 (repo viva-artistoo; legacy pbg-* dist)
     # Workbench + discovery-engine: read-only dashboards + run-earned grading.
     "vivarium-workbench",
     "viva-discovery-engine",
@@ -53,6 +54,7 @@ viva-lammps = { git = "https://github.com/vivarium-collective/viva-lammps.git", 
 viva-readdy = { git = "https://github.com/vivarium-collective/viva-readdy.git", tag = "0.1.0" }
 viva-mem3dg = { git = "https://github.com/vivarium-collective/viva-mem3dg.git", tag = "0.1.1" }
 viva-grammar = { git = "https://github.com/vivarium-collective/viva-grammar.git", tag = "0.1.0" }
+pbg-artistoo = { git = "https://github.com/vivarium-collective/viva-artistoo.git", tag = "0.1.0" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
 viva-discovery-engine = { git = "https://github.com/vivarium-collective/discovery-engine.git", branch = "main" }
 

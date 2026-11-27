@@ -35,7 +35,17 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m pip install pyyaml
+      - run: python -m pip install pyyaml pytest
+      - name: Read-only-workbench publishability (viz assets + composite refs)
+        # Framework-only gate (no sim engines): every study's embed/viz assets
+        # must resolve to a committed file at the publisher's staging path, and
+        # every composite ref must be well-formed + honestly simulation-deferred
+        # (pinned simulator; no bare-vs-qualified double-reference). Catches the
+        # 404-viz and duplicate "composite not found" banner regressions before
+        # a release goes live. See scripts/check_publishable.py.
+        run: python scripts/check_publishable.py --workspace .
+      - name: Lint self-tests
+        run: python -m pytest tests/test_check_publishable.py -q
       - name: Studies pin their simulator and parse cleanly
         run: |
           python - <<'PY'

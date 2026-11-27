@@ -274,10 +274,10 @@ visualizations:
 # render local: viz itself. Files are committed under this study's viz/.
 embed_visualizations:
 - name: species-timeseries
-  url: /workspace/studies/mapk-brs-basics/viz/species-timeseries.html
+  url: /investigations/reactive-system/studies/mapk-brs-basics/viz/species-timeseries.html
   title: Species counts over time (interactive)
 - name: animation-interactive
-  url: /workspace/studies/mapk-brs-basics/viz/animation-interactive.html
+  url: /investigations/reactive-system/studies/mapk-brs-basics/viz/animation-interactive.html
   title: MAPK animation (interactive)
 conclusion_logic:
   if_primary_tests_pass:
@@ -303,7 +303,7 @@ simulation_set:
   - total-substrate
 - name: deterministic
   kind: single
-  base_model: mapk_brs
+  base_model: pbg_reactive_system.composites.mapk_brs
   perturbation:
     mode: deterministic
   status: ran
@@ -315,7 +315,7 @@ simulation_set:
   - total-substrate
 - name: seed-7
   kind: single
-  base_model: mapk_brs
+  base_model: pbg_reactive_system.composites.mapk_brs
   perturbation:
     seed: 7
   status: ran

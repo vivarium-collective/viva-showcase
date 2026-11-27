@@ -268,16 +268,16 @@ visualizations:
 
 embed_visualizations:
 - name: vortex-street-vorticity
-  url: /studies/navier-stokes/viz/vortex_street_vorticity.html
+  url: /investigations/fenics/studies/navier-stokes/viz/vortex_street_vorticity.html
   description: "Animated vorticity field -- the von Karman vortex street shedding off the cylinder, alternating positive/negative lobes in the wake, now run to a saturated limit cycle (T_PROD=8.0s)."
 - name: drag-lift-timeseries
-  url: /studies/navier-stokes/viz/drag_lift_timeseries.html
+  url: /investigations/fenics/studies/navier-stokes/viz/drag_lift_timeseries.html
   description: "Drag/lift coefficient vs simulated time -- Cl visibly oscillates and saturates (std=0.736, Cl_max=1.066) once shedding establishes."
 - name: wake-velocity-snapshot
-  url: /studies/navier-stokes/viz/vortex_street_velocity.html
+  url: /investigations/fenics/studies/navier-stokes/viz/vortex_street_velocity.html
   description: "Interactive Plotly streamlines of the wake velocity field at the end of the production run (t=8.0s)."
 - name: pressure-snapshot
-  url: /studies/navier-stokes/viz/vortex_street_pressure.html
+  url: /investigations/fenics/studies/navier-stokes/viz/vortex_street_pressure.html
   description: "Interactive Plotly heatmap of the pressure field at the end of the production run (t=8.0s)."
 
 conclusion: null

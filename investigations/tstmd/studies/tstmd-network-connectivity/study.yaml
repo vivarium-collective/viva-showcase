@@ -69,10 +69,10 @@ visualizations:
 embed_visualizations:
   - name: Network video
     title: Crosslinking raises connectivity but the network never percolates (play ▶)
-    url: /workspace/studies/tstmd-network-connectivity/viz/video.html
+    url: /investigations/tstmd/studies/tstmd-network-connectivity/viz/video.html
   - name: Interactive figure
     title: Giant-component fraction vs crosslinks created (saturates ~0.30)
-    url: /workspace/studies/tstmd-network-connectivity/viz/interactive.html
+    url: /investigations/tstmd/studies/tstmd-network-connectivity/viz/interactive.html
 
 findings:
   - id: F-01

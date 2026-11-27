@@ -223,10 +223,10 @@ visualizations:
 
 embed_visualizations:
 - name: convergence-multi-order
-  url: /studies/poisson-validation/viz/convergence_multi_order.html
+  url: /investigations/fenics/studies/poisson-validation/viz/convergence_multi_order.html
   description: "Log-log L2 error vs mesh size for P1/P2/P3, each with a fitted rate and a dotted theoretical-optimal-rate reference triangle."
 - name: solution-heatmap
-  url: /studies/poisson-validation/viz/solution_heatmap.html
+  url: /investigations/fenics/studies/poisson-validation/viz/solution_heatmap.html
   description: "Interactive Plotly heatmap of the smooth manufactured solution u = sin(πx)sin(πy)."
 
 conclusion: |

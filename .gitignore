@@ -10,6 +10,8 @@ venv/
 *.zarr/
 out/
 history.db
+# workbench-generated workspace cache (schemas/registry), regenerated on render
+.pbg/
 # regenerable run artifacts (authored sims/run.py scripts ARE tracked)
 **/_runstore/
 **/runs.db

@@ -268,10 +268,10 @@ visualizations:
 
 embed_visualizations:
 - name: peristalsis-animation
-  url: /studies/moving-boundary/viz/peristalsis_animation.html
+  url: /investigations/fenics/studies/moving-boundary/viz/peristalsis_animation.html
   description: "Speed field animation (reference node positions) with the TRUE deforming wall envelope overlaid, tracking the traveling occlusion wave."
 - name: net-flow-vs-amplitude
-  url: /studies/moving-boundary/viz/net_flow_vs_amplitude.html
+  url: /investigations/fenics/studies/moving-boundary/viz/net_flow_vs_amplitude.html
   description: "Net (time-averaged) flow rate Q vs occlusion amplitude -- positive and monotonically increasing, the peristaltic-pumping signature."
 
 conclusion: null

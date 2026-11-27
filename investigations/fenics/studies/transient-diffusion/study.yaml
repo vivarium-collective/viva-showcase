@@ -256,19 +256,19 @@ visualizations:
 
 embed_visualizations:
 - name: morphogen-animation
-  url: /studies/transient-diffusion/viz/morphogen_animation.html
+  url: /investigations/fenics/studies/transient-diffusion/viz/morphogen_animation.html
   description: "Animated baseline gradient forming: the morphogen spreading from the x=0 source boundary to its steady exponential shape -- DiffusionProcess (Dirichlet source) ⊕ LinearDegradationProcess, coupled purely through shared stores."
 - name: morphogen-profile-fit
-  url: /studies/transient-diffusion/viz/morphogen_profile_fit.html
+  url: /investigations/fenics/studies/transient-diffusion/viz/morphogen_profile_fit.html
   description: "Steady-state c(x) for all 3 regimes (log y-axis), each overlaid with its analytic c0*exp(-x/lambda) fit -- shows lambda=sqrt(D/k) controlling the gradient's range."
 - name: morphogen-french-flag-baseline
-  url: /studies/transient-diffusion/viz/morphogen_french_flag_baseline.html
+  url: /investigations/fenics/studies/transient-diffusion/viz/morphogen_french_flag_baseline.html
   description: "French-flag positional-information readout, baseline regime (k=1.0, lambda=0.316): 3 fate regions (blue/white/red) with dashed reference lines at the analytic threshold crossings."
 - name: morphogen-french-flag-short
-  url: /studies/transient-diffusion/viz/morphogen_french_flag_short.html
+  url: /investigations/fenics/studies/transient-diffusion/viz/morphogen_french_flag_short.html
   description: "French-flag readout, short-range regime (k=2.0, lambda=0.224) -- visibly narrower fate regions than baseline."
 - name: morphogen-french-flag-shorter
-  url: /studies/transient-diffusion/viz/morphogen_french_flag_shorter.html
+  url: /investigations/fenics/studies/transient-diffusion/viz/morphogen_french_flag_shorter.html
   description: "French-flag readout, shorter-range regime (k=4.0, lambda=0.158) -- narrower still, confirming lambda's monotonic control of the fate map."
 
 conclusion: null

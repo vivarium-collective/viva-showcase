@@ -215,13 +215,13 @@ visualizations:
 
 embed_visualizations:
 - name: mesh-refinement-animation
-  url: /studies/mesh-convergence/viz/mesh_refinement_animation.html
+  url: /investigations/fenics/studies/mesh-convergence/viz/mesh_refinement_animation.html
   description: "Animated adaptive mesh (levels 0-8) -- element density visibly concentrating at the re-entrant corner as Doerfler marking targets the singularity."
 - name: convergence-comparison
-  url: /studies/mesh-convergence/viz/convergence_comparison.html
+  url: /investigations/fenics/studies/mesh-convergence/viz/convergence_comparison.html
   description: "Log-log energy-norm error vs DOFs, uniform (slope ~-0.338) vs adaptive (slope ~-0.528), each with a fitted-slope annotation."
 - name: final-solution-heatmap
-  url: /studies/mesh-convergence/viz/final_solution_heatmap.html
+  url: /investigations/fenics/studies/mesh-convergence/viz/final_solution_heatmap.html
   description: "Interactive Plotly heatmap of the final adaptive solution -- the r^(2/3)*sin(2*theta/3) singular corner solution on its finest adapted mesh."
 
 conclusion: null

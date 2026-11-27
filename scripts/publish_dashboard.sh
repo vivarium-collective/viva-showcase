@@ -31,6 +31,12 @@ INTERACTIVE_URL="${3:-}"
 
 rm -rf "$OUT"
 
+# Pre-publish gate: fail (don't silently publish) when a study has a viz asset
+# that would 404 in the snapshot, or a composite ref that isn't honestly
+# simulation-deferred. Pure file/spec checks — no sim engine needed, so it runs
+# in the same framework-only env that builds the bundle. See the script's header.
+python3 "$WS_ROOT/scripts/check_publishable.py" --workspace "$WS_ROOT"
+
 args=(--workspace "$WS_ROOT" --out "$OUT")
 [ -n "$BASE_PATH" ] && args+=(--base-path "$BASE_PATH")
 [ -n "$INTERACTIVE_URL" ] && args+=(--interactive-url "$INTERACTIVE_URL")

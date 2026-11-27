@@ -276,13 +276,13 @@ visualizations:
 
 embed_visualizations:
 - name: flow-field
-  url: /studies/complex-geometry/viz/flow_field.html
+  url: /investigations/fenics/studies/complex-geometry/viz/flow_field.html
   description: "Velocity streamlines/quiver threading through the baseline pillar array (porosity~0.68)."
 - name: velocity-magnitude
-  url: /studies/complex-geometry/viz/velocity_magnitude.html
+  url: /investigations/fenics/studies/complex-geometry/viz/velocity_magnitude.html
   description: "Interpolated velocity-magnitude heatmap over the pillar lattice."
 - name: permeability-vs-porosity
-  url: /studies/complex-geometry/viz/permeability_vs_porosity.html
+  url: /investigations/fenics/studies/complex-geometry/viz/permeability_vs_porosity.html
   description: "Effective permeability k_eff vs porosity, with a Kozeny-Carman-shaped reference curve."
 
 conclusion: null

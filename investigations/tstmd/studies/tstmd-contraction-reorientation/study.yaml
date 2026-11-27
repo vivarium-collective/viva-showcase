@@ -93,10 +93,10 @@ visualizations:
 embed_visualizations:
   - name: Simulation video
     title: The simulation unfolding — cell contracts but detaches from a static adhesion ring (play ▶)
-    url: /workspace/studies/tstmd-contraction-reorientation/viz/video.html
+    url: /investigations/tstmd/studies/tstmd-contraction-reorientation/viz/video.html
   - name: Interactive figure
     title: Contraction dynamics + fiber reorientation (+ start/end ECM snapshots)
-    url: /workspace/studies/tstmd-contraction-reorientation/viz/interactive.html
+    url: /investigations/tstmd/studies/tstmd-contraction-reorientation/viz/interactive.html
 
 findings:
   - id: F-01

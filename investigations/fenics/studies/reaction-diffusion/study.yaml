@@ -297,16 +297,16 @@ visualizations:
 
 embed_visualizations:
 - name: turing-pattern-animation
-  url: /studies/reaction-diffusion/viz/turing_pattern_animation.html
+  url: /investigations/fenics/studies/reaction-diffusion/viz/turing_pattern_animation.html
   description: "Animated V field: the Gray-Scott pattern self-organizing from a near-uniform start (baseline coral/mitosis-like regime) -- 2x DiffusionProcess ⊕ GrayScottReactionProcess, coupled purely through shared stores."
 - name: turing-pattern-baseline-final
-  url: /studies/reaction-diffusion/viz/turing_pattern_baseline_final.html
+  url: /investigations/fenics/studies/reaction-diffusion/viz/turing_pattern_baseline_final.html
   description: "Final V field, coral/mitosis-like regime (F=0.037, k=0.06)."
 - name: turing-pattern-labyrinth-final
-  url: /studies/reaction-diffusion/viz/turing_pattern_labyrinth_final.html
+  url: /investigations/fenics/studies/reaction-diffusion/viz/turing_pattern_labyrinth_final.html
   description: "Final V field, labyrinth regime (F=0.03, k=0.06) -- 40 disconnected regions, a mature labyrinth topology visibly different from the baseline's single connected blob."
 - name: turing-pattern-stripes-final
-  url: /studies/reaction-diffusion/viz/turing_pattern_stripes_final.html
+  url: /investigations/fenics/studies/reaction-diffusion/viz/turing_pattern_stripes_final.html
   description: "Final V field, stripes/worms regime (F=0.055, k=0.062) -- a third distinct morphology."
 
 conclusion: null

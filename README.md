@@ -22,6 +22,7 @@ simulator version.
 | `readdy` | [viva-readdy](https://github.com/vivarium-collective/viva-readdy) (`pbg_readdy`) | `0.1.0` (git) | Particle reaction–diffusion |
 | `mem3dg` | [viva-mem3dg](https://github.com/vivarium-collective/viva-mem3dg) (`pbg_mem3dg`) | `0.1.1` (git) | Membrane mechanics — demo, deflation, patch |
 | `grammar` | [viva-grammar](https://github.com/vivarium-collective/viva-grammar) (`viva_grammar`) | `0.1.0` (git) | Cell-behavior grammar as a pluggable rule engine (hypoxia → motility) |
+| `comets` | [viva-comets](https://github.com/vivarium-collective/viva-comets) (`pbg_comets`) | `0.1.0` (git) | COMETS dynamic FBA — textbook E. coli dFBA, with and without wired visualization |
 
 ## Layout
 

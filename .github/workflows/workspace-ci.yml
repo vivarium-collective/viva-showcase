@@ -39,16 +39,15 @@ jobs:
       - name: Studies pin their simulator and parse cleanly
         run: |
           python - <<'PY'
-          import sys, yaml
+          import re, sys, yaml
           from pathlib import Path
-          # expected dist per investigation (sim slug -> simulator package)
-          EXPECT = {
-              "tellurium": "viva-tellurium",
-              "lammps": "viva-lammps",
-              "readdy": "viva-readdy",
-              "mem3dg": "viva-mem3dg",
-              "grammar": "viva-grammar",
-          }
+          # Self-deriving: a study may pin any simulator this showcase declares as a
+          # dependency (so adding an investigation never needs editing this list).
+          import tomllib
+          _proj = tomllib.loads(Path("pyproject.toml").read_text()).get("project", {})
+          def _canon(n): return re.sub(r"[-_.]+", "-", (n or "").strip()).lower()
+          DECLARED = {_canon(re.match(r"[A-Za-z0-9][A-Za-z0-9._-]*", d).group(0))
+                      for d in _proj.get("dependencies", []) if re.match(r"[A-Za-z0-9]", d)}
           fails = []
           studies = sorted(Path("investigations").glob("*/studies/*/study.yaml"))
           assert studies, "no studies found under investigations/*/studies/*/"
@@ -64,8 +63,8 @@ jobs:
               for k in ("package", "ref", "registry"):
                   if not s.get(k):
                       fails.append(f"{sy}: simulator.{k} missing/empty")
-              if s.get("package") != EXPECT.get(sim):
-                  fails.append(f"{sy}: simulator.package={s.get('package')!r} != expected {EXPECT.get(sim)!r} for investigation {sim!r}")
+              if _canon(s.get("package")) not in DECLARED:
+                  fails.append(f"{sy}: simulator.package={s.get('package')!r} is not a declared dependency in pyproject.toml")
               if s.get("ref") is not None and not str(s.get("ref")).strip():
                   fails.append(f"{sy}: simulator.ref is blank")
           # investigation.yaml well-formed
@@ -76,5 +75,6 @@ jobs:
                   fails.append(f"{iy}: YAML parse error: {e}")
           if fails:
               print("WORKSPACE LINT FAILURES:"); [print(" -", f) for f in fails]; sys.exit(1)
-          print(f"OK: {len(studies)} studies across {len(EXPECT)} investigations; all pin their simulator and parse.")
+          n_inv = len({sy.relative_to("investigations").parts[0] for sy in studies})
+          print(f"OK: {len(studies)} studies across {n_inv} investigations; all pin their simulator and parse.")
           PY

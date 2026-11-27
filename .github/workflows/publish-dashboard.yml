@@ -77,8 +77,17 @@ jobs:
       - name: Set up Python
         run: uv python install 3.12.9
 
-      - name: Install dependencies (incl. vivarium-workbench)
-        run: uv sync --extra dev || uv sync
+      - name: Install dependencies (workbench only)
+        # The read-only workbench RENDERS the committed workspace; it does not run the
+        # sims, several of which aren't pip-buildable in CI (pymem3dg CMake, lammps/cc3d
+        # conda). So install only the render framework, not `uv sync` of the sim pins.
+        run: |
+          uv venv
+          uv pip install \
+            "vivarium-workbench @ git+https://github.com/vivarium-collective/vivarium-workbench.git@main" \
+            "viva-superpowers @ git+https://github.com/vivarium-collective/viva-superpowers.git@main" \
+            "viva-discovery-engine @ git+https://github.com/vivarium-collective/viva-discovery-engine.git@main" \
+            pyyaml
 
       - name: Ensure the publish CLI is present (latest dashboard main)
         # uv.lock may pin a vivarium-workbench commit predating the publish CLI;

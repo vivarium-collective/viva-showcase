@@ -1,0 +1,22 @@
+schema_version: 2
+name: viva-showcase
+created: "2026-11-27"
+# A designated showcase workspace: one investigation per ecosystem simulator,
+# each demonstrating that simulator's basic functionality. The simulators are
+# external packages, pinned per study under `simulator:` and installed from those
+# pins (PyPI or git tag) — this workspace ships no importable package of its own.
+#
+# Layout: investigations live under investigations/<sim>/, and each study lives at
+# investigations/<sim>/studies/<slug>/ (the workbench's native nested layout — see
+# WorkspacePaths.iter_study_dirs / study_owner). No `layout:` map is needed.
+runtime:
+  # Every showcased composite is single-generation (the sims track their own state
+  # across a run); default_n_steps is the baseline run length per study.
+  max_generations: 1
+  default_n_steps: 150
+observables: []
+visualizations: []
+simulations: []
+datasets: []
+server:
+  enabled: false

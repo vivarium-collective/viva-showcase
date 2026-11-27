@@ -1,0 +1,19 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+.DS_Store
+*.zarr/
+out/
+history.db
+# regenerable run artifacts (authored sims/run.py scripts ARE tracked)
+**/_runstore/
+**/runs.db
+**/runs.db-wal
+**/runs.db-shm
+**/sims/*.subprocess.py
+**/grid/*.parquet

@@ -1,0 +1,65 @@
+[build-system]
+requires = ["hatchling>=1.18"]
+build-backend = "hatchling.build"
+
+[project]
+name = "viva-showcase"
+version = "0.1.0"
+description = "Showcase of the viva ecosystem's simulators — one investigation per simulator demonstrating basic functionality."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.11"
+authors = [
+  {name = "Eran Agmon", email = "agmon.eran@gmail.com"},
+  {name = "Ryan Spangler"},
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    # The showcased simulators, pinned for reproducibility (every study.yaml also
+    # records the pin under `simulator:`). Each provides its own import package, so
+    # the studies' `composite:` dotted paths (viva_tellurium.*, pbg_lammps.*,
+    # pbg_readdy.*, pbg_mem3dg.*, viva_grammar.*) resolve from the installed pin.
+    "viva-tellurium==0.2.4",   # PyPI
+    "viva-lammps",             # git tag 0.1.1 (see [tool.uv.sources])
+    "viva-readdy",             # git tag 0.1.0
+    "viva-mem3dg",             # git tag 0.1.1
+    "viva-grammar",            # git tag 0.1.0
+    # Workbench + discovery-engine: read-only dashboards + run-earned grading.
+    "vivarium-workbench",
+    "viva-discovery-engine",
+]
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.urls]
+Homepage = "https://github.com/vivarium-collective/viva-showcase"
+Issues = "https://github.com/vivarium-collective/viva-showcase/issues"
+
+# Metadata-only wheel: this repo is the showcase workspace and ships no importable
+# package of its own (each simulator package lives in its own repo, installed from
+# the pins above).
+[tool.hatch.build.targets.wheel]
+bypass-selection = true
+
+[tool.uv.sources]
+viva-lammps = { git = "https://github.com/vivarium-collective/viva-lammps.git", tag = "0.1.1" }
+viva-readdy = { git = "https://github.com/vivarium-collective/viva-readdy.git", tag = "0.1.0" }
+viva-mem3dg = { git = "https://github.com/vivarium-collective/viva-mem3dg.git", tag = "0.1.1" }
+viva-grammar = { git = "https://github.com/vivarium-collective/viva-grammar.git", tag = "0.1.0" }
+vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
+viva-discovery-engine = { git = "https://github.com/vivarium-collective/discovery-engine.git", branch = "main" }
+
+[tool.uv]
+# vivarium-workbench caps viva-discovery-engine by semver policy; resolve DE from
+# git main so this workspace tracks the current engine (matches the other viva
+# workspaces).
+override-dependencies = [
+    "viva-discovery-engine @ git+https://github.com/vivarium-collective/discovery-engine.git@main",
+]

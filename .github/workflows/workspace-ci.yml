@@ -1,0 +1,80 @@
+name: workspace-ci
+
+# PR gate for the viva-showcase workspace.
+#
+# viva-showcase pins SIX heavy native simulators (RoadRunner, LAMMPS, ReaDDy,
+# Mem3DG, …) across its investigations. Several of those engines have no
+# universal py3.12 wheel (ReaDDy is conda-first; pymem3dg builds from source via
+# CMake; the LAMMPS pip wheel ships no native lib), so a full `uv sync` of every
+# pin is not reliably reproducible on a hosted runner — it belongs on a machine
+# with the engine toolchains (conda). This gate therefore validates what IS
+# machine-independent and always meaningful:
+#   1. every study.yaml / investigation.yaml is well-formed YAML, and
+#   2. every study pins its simulator (`simulator: {package, ref, registry}`),
+#      the ref is a non-empty version string, and the package matches the
+#      investigation it lives under (the per-study reproducibility contract the
+#      L2 simulator-pin audit enforces once the simulator is installed).
+# Running a study against its real engine is done where that engine is installed;
+# see each simulator's own repo.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: workspace-ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install pyyaml
+      - name: Studies pin their simulator and parse cleanly
+        run: |
+          python - <<'PY'
+          import sys, yaml
+          from pathlib import Path
+          # expected dist per investigation (sim slug -> simulator package)
+          EXPECT = {
+              "tellurium": "viva-tellurium",
+              "lammps": "viva-lammps",
+              "readdy": "viva-readdy",
+              "mem3dg": "viva-mem3dg",
+              "grammar": "viva-grammar",
+          }
+          fails = []
+          studies = sorted(Path("investigations").glob("*/studies/*/study.yaml"))
+          assert studies, "no studies found under investigations/*/studies/*/"
+          for sy in studies:
+              sim = sy.relative_to("investigations").parts[0]
+              try:
+                  spec = yaml.safe_load(sy.read_text())
+              except Exception as e:
+                  fails.append(f"{sy}: YAML parse error: {e}"); continue
+              s = (spec or {}).get("simulator")
+              if not isinstance(s, dict):
+                  fails.append(f"{sy}: missing `simulator:` block"); continue
+              for k in ("package", "ref", "registry"):
+                  if not s.get(k):
+                      fails.append(f"{sy}: simulator.{k} missing/empty")
+              if s.get("package") != EXPECT.get(sim):
+                  fails.append(f"{sy}: simulator.package={s.get('package')!r} != expected {EXPECT.get(sim)!r} for investigation {sim!r}")
+              if s.get("ref") is not None and not str(s.get("ref")).strip():
+                  fails.append(f"{sy}: simulator.ref is blank")
+          # investigation.yaml well-formed
+          for iy in sorted(Path("investigations").glob("*/investigation.yaml")):
+              try:
+                  yaml.safe_load(iy.read_text())
+              except Exception as e:
+                  fails.append(f"{iy}: YAML parse error: {e}")
+          if fails:
+              print("WORKSPACE LINT FAILURES:"); [print(" -", f) for f in fails]; sys.exit(1)
+          print(f"OK: {len(studies)} studies across {len(EXPECT)} investigations; all pin their simulator and parse.")
+          PY

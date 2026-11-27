@@ -1,0 +1,72 @@
+schema_version: 2
+name: equilibrator
+title: "Showcase: viva-equilibrator — eQuilibrator ΔG' as a pluggable thermodynamics engine"
+created: '2026-11-27'
+status: running
+question: >-
+  Does viva-equilibrator expose the real eQuilibrator (component-contribution)
+  engine as a process-bigraph Step that computes transformed Gibbs free energies
+  and reports reaction feasibility under defined environmental conditions?
+hypothesis: >-
+  Wrapping eQuilibrator as a process-bigraph Step and feeding it a fixed
+  alkaline-hydrothermal-vent condition should report that H2-driven reductive
+  CO2-fixation reactions (to formate, acetate, pyruvate) are strongly exergonic
+  (ΔG' < 0) — opening a thermodynamic feasibility gate — using genuine
+  component-contribution estimates, computed entirely offline.
+description: >-
+  viva-equilibrator bridges the eQuilibrator API (component-contribution ΔG'
+  estimation) into process-bigraph as a reusable thermodynamics Step. This
+  showcase runs the engine on the origin-of-life question of whether early
+  carbon-fixation chemistry is thermodynamically favorable at vent conditions:
+  the feasibility-gate composite computes ΔG' for three reductive CO2-fixation
+  products and emits a per-reaction feasibility flag.
+studies:
+- vent-feasibility-gate
+executive:
+  what_is_this: >-
+    A demonstration that the eQuilibrator thermodynamics calculator can be driven
+    as a plug-in engine inside process-bigraph. It takes a set of vent conditions
+    (pH, temperature, dissolved H2 and CO2) and reports, with real published
+    free-energy data, whether three candidate carbon-fixation reactions can run
+    downhill.
+  verdict: >-
+    The feasibility-gate composite runs eQuilibrator end to end and finds all three
+    reductive CO2-fixation reactions strongly exergonic at vent conditions
+    (ΔG' = -48.7, -150.7, -88.3 kJ/mol), with feasibility ~1.0 — both acceptance
+    bands met in a clean-venv run of the pinned engine.
+  verdict_detail: >-
+    Study vent-feasibility-gate: at pH 9.5 / 333.15 K / H2 5e-3 M / CO2 2e-3 M,
+    eQuilibrator reports ΔG'(formate) = -48.66, ΔG'(acetate) = -150.74,
+    ΔG'(pyruvate) = -88.28 kJ/mol; every reaction feasibility >= 0.9999 (observed
+    on viva-equilibrator 0.1.0 / equilibrator-api 0.8.1, 2026-11-27, fully
+    offline).
+  verdict_status: supported
+  decisions_needed: []
+scientific_argument:
+  main_claim: >-
+    eQuilibrator's component-contribution ΔG' estimation can be exposed as a
+    reusable process-bigraph Step that evaluates reaction feasibility under defined
+    conditions using genuine thermodynamic data.
+  evidence_for:
+  - >-
+    All three reductive CO2-fixation reactions come back exergonic (ΔG' < 0) at the
+    vent condition, matching the expectation that an H2-rich alkaline vent is a
+    thermodynamically permissive environment for early carbon fixation.
+  - >-
+    The ΔG' values carry real component-contribution uncertainties and match the
+    engine's own standard_dg_prime helper, so they are genuine eQuilibrator output.
+  evidence_against:
+  - >-
+    This is a feasibility gate at a single fixed condition, not a flux or kinetic
+    prediction; thermodynamic favorability is necessary but not sufficient for a
+    pathway to carry flux.
+  key_figures: []
+  caveats:
+  - >-
+    The engine runs offline from the shipped component-contribution cache
+    (equilibrator-cache-data); results are the cache's current best estimates.
+acceptance_criteria:
+- study: vent-feasibility-gate
+  behavior: thermodynamic-feasibility
+- study: vent-feasibility-gate
+  behavior: feasibility-gate-open

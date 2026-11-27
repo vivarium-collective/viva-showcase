@@ -1,0 +1,62 @@
+schema_version: 2
+name: simbio
+title: "Showcase: viva-simbio — simbio CRN/ODE integration as a pluggable engine"
+created: '2026-11-27'
+status: running
+question: >-
+  Does viva-simbio expose the simbio chemical-reaction-network ODE engine as a
+  process-bigraph process that integrates an Antimony model and emits real species
+  trajectories?
+hypothesis: >-
+  Wrapping simbio as a process-bigraph process and integrating a Lotka-Volterra
+  predator-prey Antimony model should produce sustained, bounded population
+  oscillations — both species staying positive and the prey showing repeated peaks
+  — using the real simbio ODE solver.
+description: >-
+  viva-simbio bridges simbio (an Antimony/SBML reaction-network simulator built on
+  poincare) into process-bigraph as a process that integrates a CRN against shared
+  concentration and parameter stores. This showcase proves the engine on the
+  classic Lotka-Volterra oscillator, with the Brusselator and repressilator
+  available as additional registered composites.
+studies:
+- lotka-volterra
+executive:
+  what_is_this: >-
+    A demonstration that the simbio reaction-network simulator can be driven as a
+    plug-in engine inside process-bigraph. It integrates a predator-prey model and
+    reports the two populations over time, showing the characteristic boom-and-bust
+    oscillation.
+  verdict: >-
+    The Lotka-Volterra composite runs simbio end to end and produces sustained,
+    bounded predator-prey oscillation (both species stay positive; prey peaks 3
+    times over t in [0,40]) — the acceptance band met in a clean-venv run of the
+    pinned engine.
+  verdict_detail: >-
+    Study lotka-volterra: over t in [0, 40] (161 emitted rows), prey ranges
+    0.506-13.59 and predator 0.916-6.16, both strictly positive, with 3 prey peaks
+    above 5.0 (observed on pbg-simbio @ main / simbio 1.1.0, 2026-11-27).
+  decisions_needed: []
+scientific_argument:
+  main_claim: >-
+    simbio can be exposed as a reusable process-bigraph process that integrates a
+    real Antimony reaction network and emits correct, bounded dynamical
+    trajectories.
+  evidence_for:
+  - >-
+    The predator-prey populations stay positive and oscillate with multiple
+    sustained cycles, the textbook Lotka-Volterra signature.
+  - >-
+    The Brusselator composite independently shows sustained oscillation (X
+    amplitude ~3.4), confirming the engine drives more than one CRN.
+  evidence_against:
+  - >-
+    These are canonical demonstration models, not calibrated biological systems;
+    they exercise the engine, not a specific biological claim.
+  key_figures: []
+  caveats:
+  - >-
+    simbio/poincare 1.3 dropped the solve() kwargs this bridge depends on, so the
+    showcase pins simbio==1.1.* / poincare==1.1.* to keep the engine runnable.
+acceptance_criteria:
+- study: lotka-volterra
+  behavior: sustained-oscillation

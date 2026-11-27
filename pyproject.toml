@@ -30,6 +30,14 @@ dependencies = [
     "viva-readdy",             # git tag 0.1.0
     "viva-mem3dg",             # git tag 0.1.1
     "viva-grammar",            # git tag 0.1.0
+    # Already-pure engine sims — basic-functionality showcase investigations.
+    "viva-copasi==0.2.2",      # PyPI (COPASI via basico)
+    "viva-amici",              # git main (AMICI/CVODES; see [tool.uv.sources])
+    "viva-simbio",             # git main (simbio CRN)
+    "simbio==1.1.*",           # pbg-simbio's bridge uses solve() kwargs dropped in simbio 1.3
+    "poincare==1.1.*",         # transitive of simbio; pin in lockstep (1.3 breaks the bridge)
+    "viva-equilibrator",       # git tag v0.1.0 (equilibrator-api)
+    "viva-maboss",             # git tag 0.1.3 (MaBoSS via cmaboss)
     # Workbench + discovery-engine: read-only dashboards + run-earned grading.
     "vivarium-workbench",
     "viva-discovery-engine",
@@ -53,6 +61,12 @@ viva-lammps = { git = "https://github.com/vivarium-collective/viva-lammps.git", 
 viva-readdy = { git = "https://github.com/vivarium-collective/viva-readdy.git", tag = "0.1.0" }
 viva-mem3dg = { git = "https://github.com/vivarium-collective/viva-mem3dg.git", tag = "0.1.1" }
 viva-grammar = { git = "https://github.com/vivarium-collective/viva-grammar.git", tag = "0.1.0" }
+# Already-pure engine sims (this PR). amici/simbio have no release tags yet → pinned
+# to a specific main commit for reproducibility; equilibrator/maboss pin to a tag.
+viva-amici = { git = "https://github.com/vivarium-collective/viva-amici.git", rev = "63ce10bff6ea38524726c810e83b84fcfecbe059" }
+viva-simbio = { git = "https://github.com/vivarium-collective/viva-simbio.git", rev = "c43ecf0c465c729713f0cc8304927f71cee73312" }
+viva-equilibrator = { git = "https://github.com/vivarium-collective/viva-equilibrator.git", tag = "v0.1.0" }
+viva-maboss = { git = "https://github.com/vivarium-collective/viva-maboss.git", tag = "0.1.3" }
 vivarium-workbench = { git = "https://github.com/vivarium-collective/vivarium-workbench.git", branch = "main" }
 viva-discovery-engine = { git = "https://github.com/vivarium-collective/discovery-engine.git", branch = "main" }
 

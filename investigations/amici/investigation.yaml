@@ -1,0 +1,63 @@
+schema_version: 2
+name: amici
+title: "Showcase: viva-amici — AMICI/CVODES compiled ODE integration as a pluggable engine"
+created: '2026-11-27'
+status: running
+question: >-
+  Does viva-amici expose the AMICI simulator (CVODES, with per-model C++
+  compilation) as a process-bigraph process that compiles an ODE model, integrates
+  it, and emits a correct time-series?
+hypothesis: >-
+  Wrapping AMICI as a process-bigraph process and running a single-species
+  first-order decay (dA/dt = -kA) should compile the model to native code and
+  integrate it to the analytic solution A(t) = A0*exp(-kt) within solver
+  tolerance, confirming the AMICI->process-bigraph bridge end to end.
+description: >-
+  viva-amici bridges AMICI (the Advanced Multi-language Interface to CVODES/IDAS)
+  into process-bigraph as a process that translates an Antimony model to C++,
+  compiles it, and integrates it with the CVODES stiff solver. This showcase proves
+  the bridge on the simplest possible model — exponential decay — the smoke test
+  that compilation, integration, and emission all work; Lotka-Volterra and a MAPK
+  cascade are available as additional registered composites.
+studies:
+- exponential-decay
+executive:
+  what_is_this: >-
+    A demonstration that the AMICI ODE simulator can be driven as a plug-in engine
+    inside process-bigraph. It compiles a one-equation decay model to native code,
+    integrates it, and reports the concentration falling over time — the baseline
+    proof that the compiled-solver bridge works.
+  verdict: >-
+    The exponential-decay composite compiles and runs AMICI end to end: the state
+    falls monotonically to A(5) = 3.6788, matching the analytic 10*exp(-0.2*5) to
+    within 2e-7 — the acceptance band met in a clean-venv run of the pinned engine.
+  verdict_detail: >-
+    Study exponential-decay: AMICI generated and compiled C++ for the model, and
+    CVODES integrated it to A(5) = 3.678794 versus analytic 3.678794 (relative
+    error 2.0e-7), strictly monotone decreasing (observed on pbg-amici @ main /
+    AMICI 1.2.0, Apple clang, 2026-11-27).
+  decisions_needed: []
+scientific_argument:
+  main_claim: >-
+    AMICI can be exposed as a reusable process-bigraph process that compiles an ODE
+    model to native code, integrates it with CVODES, and emits a correct
+    time-series.
+  evidence_for:
+  - >-
+    The integrated trajectory matches the closed-form exponential solution to ~7
+    digits, so the compiled model and the stiff solver are genuinely correct.
+  - >-
+    AMICI emitted C++ sources and a compiled .so on first run, confirming the
+    bridge drives the real compile-then-integrate pipeline, not a stub.
+  evidence_against:
+  - >-
+    This is a one-state smoke-test model; it proves the bridge, not AMICI's full
+    capability surface (sensitivities, events, larger stiff systems).
+  key_figures: []
+  caveats:
+  - >-
+    The first run requires a working C/C++ toolchain for AMICI's per-model
+    compilation; on a host without one the engine would be install-deferred.
+acceptance_criteria:
+- study: exponential-decay
+  behavior: matches-analytic-decay

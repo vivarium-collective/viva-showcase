@@ -156,6 +156,34 @@ def check_workspace(ws_root: Path) -> list[str]:
                     f"(e.g. /investigations/{inv}/studies/{study}/viz/<file>)."
                 )
 
+        # (1b) no committed viz figure may be a baked render-error stub. The
+        # renderer writes a ``<p ...>Failed to render <code>NAME</code>: ...``
+        # stub when a viz can't be dispatched, and once committed the publisher
+        # copies it verbatim into the bundle, so the live study page shows a red
+        # "Failed to render ...: KeyError: 'address'" block (the exact breakage
+        # scaffold/stub visualizations with no `address` produced). A current
+        # renderer SKIPS an unaddressable viz instead of stubbing it, so any such
+        # file on disk is a STALE error baked by an older render — never
+        # publishable. Delete it (a stub viz renders as its clean placeholder with
+        # no committed html); fill in the viz's `address` if a real figure is
+        # wanted.
+        viz_dir = sy.parent / "viz"
+        if viz_dir.is_dir():
+            for html in sorted(viz_dir.rglob("*.html")):
+                try:
+                    head = html.read_text(encoding="utf-8", errors="replace")[:400]
+                except OSError:
+                    continue
+                if head.lstrip().startswith("<p") and "Failed to render" in head:
+                    fails.append(
+                        f"{where.parent / 'viz' / html.relative_to(viz_dir)}: "
+                        f"committed viz figure is a baked render-error stub "
+                        f"(\"Failed to render\") — a stale render error that would "
+                        f"publish as a red failure block. Delete it (an unaddressed "
+                        f"stub viz renders as a clean placeholder) or give the viz "
+                        f"an `address:` so it renders a real figure."
+                    )
+
         # (2) composite-ref well-formedness / honest simulation-deferral.
         refs = _composite_refs(spec)
         if refs:

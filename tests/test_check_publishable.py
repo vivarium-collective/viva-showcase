@@ -107,6 +107,31 @@ def test_hyphenated_composite_ref_is_well_formed(tmp_path):
     assert cp.check_workspace(tmp_path) == []
 
 
+def test_committed_render_error_stub_fails(tmp_path):
+    # The exact symptom the user hit: a committed viz/<name>.html that is a baked
+    # "Failed to render ...: KeyError: 'address'" stub (a stale error from an older
+    # renderer) publishes as a red failure block on the live study page.
+    stub = ('<p style="color:#991b1b">Failed to render '
+            "<code>demo-study-world</code>: <code>KeyError: 'address'</code></p>")
+    _write_study(tmp_path, "demo", "demo-study", _good_spec("demo", "demo-study"),
+                 viz={"fig.html": "<html>ok</html>",
+                      "demo-study-world.html": stub})
+    fails = cp.check_workspace(tmp_path)
+    assert any("baked render-error stub" in f and "demo-study-world.html" in f
+               for f in fails), fails
+
+
+def test_real_figure_mentioning_failed_to_render_passes(tmp_path):
+    # A real figure is not a stub just because its text contains the words — the
+    # check keys on the error-stub shape (a leading <p> whose head says "Failed to
+    # render"), so narrative prose about rendering must not trip it.
+    fig = ("<html><body><h1>Render benchmark</h1>"
+           "<p>None of the runs Failed to render.</p></body></html>")
+    _write_study(tmp_path, "demo", "demo-study", _good_spec("demo", "demo-study"),
+                 viz={"fig.html": fig})
+    assert cp.check_workspace(tmp_path) == []
+
+
 def test_empty_workspace_fails(tmp_path):
     (tmp_path / "investigations").mkdir()
     fails = cp.check_workspace(tmp_path)
